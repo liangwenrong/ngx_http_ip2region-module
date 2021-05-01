@@ -293,7 +293,7 @@ ngx_http_variable_get_handler_index(ngx_http_request_t *r, ngx_http_variable_val
     ngx_http_variable_value_t *region_name_value =
             ngx_http_get_flushed_variable(r, ngx_http_ip2region_variables[IP2REGION_REGION_NAME].index);
 
-    char *data = ngx_pnalloc(r->pool, region_name_value->len);
+    char *data = ngx_pnalloc(r->pool, region_name_value->len + 1);
     ngx_memcpy(data, (char *) region_name_value->data, region_name_value->len + 1);
 
     data = cutSplit((char *) data, '|', index);
@@ -308,13 +308,13 @@ ngx_http_variable_get_handler_str(ngx_http_request_t *r, ngx_http_variable_value
     }
 
     size_t len;
-    len = ngx_strlen(data) + 1;
-    v->data = ngx_pnalloc(r->pool, len);
+    len = ngx_strlen(data);
+    v->data = ngx_pnalloc(r->pool, len + 1);//包括字符串结束符'\0'
 
     if (v->data == NULL) {
         return NGX_ERROR;
     }
-    ngx_memcpy(v->data, data, len);
+    ngx_memcpy(v->data, data, len+1);
 
     v->len = len;
     v->valid = 1;
