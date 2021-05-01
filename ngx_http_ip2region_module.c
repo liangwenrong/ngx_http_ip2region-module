@@ -158,6 +158,8 @@ ngx_http_ip2region_set_conf_ip2region(ngx_conf_t *cf, ngx_command_t *cmd, void *
         return NGX_CONF_ERROR;
     }
 
+    ngx_http_ip2region_add_variable(cf);
+
     return NGX_CONF_OK;
 }
 
@@ -208,7 +210,7 @@ static ngx_command_t ngx_http_ip2region_commands[] = {
  * 调用添加变量函数入口，创建配置入口，初始化配置函数入口
  */
 static ngx_http_module_t ngx_http_ip2region_module_ctx = {
-        ngx_http_ip2region_add_variable,       /* preconfiguration */
+        NULL,       /* preconfiguration */
         NULL,                                  /* postconfiguration */
 
         ngx_http_ip2region_create_main_conf,   /* create main configuration */
